@@ -19,7 +19,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=100, blank=False)
-    authors = models.ManyToManyField(Author, related_name="Books") 
+    authors = models.ManyToManyField(Author, related_name="books") 
     pages = models.IntegerField()
     genre = models.CharField(max_length=50, blank=False)
     published_by = models.CharField(max_length=100, blank=False)

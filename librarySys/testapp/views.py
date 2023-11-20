@@ -20,6 +20,7 @@ def sayhello(request):
     books = Book.objects.all()
     context['books'] = books
     context['title'] = 'Home'
+    context['trgtBooks'] = []
      
     if request.method == 'POST':
         if 'save' in request.POST:
@@ -43,16 +44,22 @@ def sayhello(request):
             book = Book.objects.get(id=primKey)
             book.delete()
     elif request.method == "GET":
+            
             print(request.GET)
             btn = request.GET.get('radio1')
             if btn == 'author':
                  print('author has been searched')
                  try:
-                    trgtAuthor = Author.objects.get(name=request.GET.get('search-value')) 
+                    trgtAuthor = Author.objects.get(name=request.GET.get('search-value'))
+                    trgtBooks = trgtAuthor.books.all()
+                    print(trgtAuthor)
                     # trgtBooks = trgtAuthor.books.all()
-                    print(len(trgtBooks))
+                    # print(len(trgtBooks))
+                    context['trgtBooks'] += trgtBooks
                  except Author.DoesNotExist:
                     trgtBooks = None
+                 
+                     
 
             elif btn == 'book':
                  print('book has been searched')  
@@ -63,11 +70,11 @@ def sayhello(request):
                  except Book.DoesNotExist:
                     trgtBooks = None
 
-                 context['trgtBooks'] = trgtBooks 
+                 context['trgtBooks'].append(trgtBooks)
             else:
                  print('wrong output')
     else:
-        context['trgtBooks'] = None
+        context['trgtBooks'] = []
             
 
     context['form'] = form

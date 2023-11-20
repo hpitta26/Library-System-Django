@@ -14,9 +14,9 @@
 
 
     {%if name%}
-    <h1>Hello {{name}}</h1>
+    <h2>Hello {{name}}</h2>
     {% else %}
-    <h1>Hello World</h1>
+    <h2>Library Section</h2>
     {% endif %}
 
     <div class="n7-middle-cell2">
@@ -105,20 +105,20 @@
               </thead>
               <tbody>
 
-
+              {%for book in trgtBooks%}
                 <tr>
-                    <td>{{trgtBooks.title}}</td>
+                    <td>{{book.title}}</td>
                     <td>
-                        {% for author in trgtBooks.authors.all %}
+                        {% for author in book.authors.all %}
                             {{author.name}}
                         {% endfor %}
                     </td>
-                    <td>{{trgtBooks.pages}}</td>
-                    <td>{{trgtBooks.genre}}</td>
-                    <td>{{trgtBooks.published_by}}</td>
-                    <td>{{trgtBooks.quote}}</td>
+                    <td>{{book.pages}}</td>
+                    <td>{{book.genre}}</td>
+                    <td>{{book.published_by}}</td>
+                    <td>{{book.quote}}</td>
                 </tr>
-
+              {%endfor%} 
                 
               </tbody>
             </table>

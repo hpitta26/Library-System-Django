@@ -1,0 +1,142 @@
+
+.n7-middle-cell2 {
+    background-color: cadetblue;
+    /* margin-top: 0.3rem;
+    margin-bottom: 0.3rem; */
+    /* height: 90%; */
+    /* margin-right: 1rem; */
+
+    /* padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-top: 1.5px groove black;
+    border-bottom: 1.5px groove black; */
+
+    margin: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.8rem;
+    border-style: solid;
+    border-color: #e3e1e1;
+    box-shadow: 0 0px 15px rgba(56, 125, 255, 0.17);
+
+    /* width: 100%; */
+}
+
+.n7-middle {
+    background-color: rgb(50, 159, 163);
+    /* margin-top: 0.3rem;
+    margin-bottom: 0.3rem; */
+    /* height: 90%; */
+    /* margin-right: 1rem; */
+
+    /* padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-top: 1.5px groove black;
+    border-bottom: 1.5px groove black; */
+
+    margin: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.8rem;
+    border-style: solid;
+    border-color: #e3e1e1;
+    box-shadow: 0 0px 15px rgba(56, 125, 255, 0.17);
+
+    /* width: 100%; */
+}
+
+.home-table {
+    /* border: solid; */
+    /* border-collapse: collapse; */
+    border-spacing: 3px 0;
+    /* background-color:bisque ; */
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+td {
+    width:0.1%;
+    /* white-space: nowrap; */
+    border-top: 1.5px groove;
+    border-bottom: 1.5px groove;
+    border-color: black;
+    text-align: center;
+
+    font-weight:500;
+    overflow-x: auto;
+    overflow: hidden;
+
+
+    /* border-style:groove; */
+    
+    /* border: 1px solid black; */
+}
+
+.homet-headers0 {
+    width: 10%;
+    border-right: 1.5px groove black;
+    border-top: none;
+    font-weight:700;
+
+}
+
+.homet-headers {
+    width: 10%;
+    border-right: 1.5px groove black;
+    border-top: none;
+    font-weight:700;
+
+}
+
+
+
+
+
+.lower-container {
+    background-color: aqua;
+    /* display: flex;
+    justify-content: space-between; */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* align-items: center; */
+    /* justify-content: center; */
+    padding: 1rem;
+}
+.form-container {
+    display: block;
+    /* flex: 1; 
+    padding: 20px; */
+    width: 20%; /* Adjust the width as needed */
+    margin-bottom: 20px;
+}
+.table-container {
+ /* Adjust the width as needed */
+    border-spacing: 3px 0;
+    /* background-color:bisque ; */
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    /* flex: 1; 
+    padding: 20px;
+    border-left: 1px solid #ccc; 
+    font-size: x-large; */
+}
+label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    white-space: nowrap;
+  }
+
+.column {
+
+padding: 10px; /* Padding between columns */
+}
+
+
+
+
+
+

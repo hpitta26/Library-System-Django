@@ -9,125 +9,128 @@
         <link rel="stylesheet" href="../static/home.css">
     </head>
 
+
     <body>
 
+        <h2>Library Section:</h2>
+        <div class="upper-container">
+            <table class="home-table">
+                <form method="post" action="{% url 'saveFunc' %}">
+                    {% csrf_token %}
+                    <tr>
+                        <th class="homet-headers0">Title</th>
+                        <th class="homet-headers">Authors</th>
+                        <th class="homet-headers">Pages</th>
+                        <th class="homet-headers">Genre</th>
+                        <th class="homet-headers">Published By</th>
+                        <th class="homet-headers">Quote</th>
+                        <th class="homet-headers"></th>
+                    </tr>
+                    <tr class="homet-forms">
+                        {%for field in form%}
+                            <td>{{field}}</td>
+                        {%endfor%}
+                        <td><button name="save">save</button></td>
+                    </tr>
+                </form>
 
-
-    {%if name%}
-    <h2>Hello {{name}}</h2>
-    {% else %}
-    <h2>Library Section</h2>
-    {% endif %}
-
-    <div class="n7-middle-cell2">
-        <table class="home-table">
-            <form method="post" action="{% url 'sayhello' %}">
-                {% csrf_token %}
-                <tr>
-                    <th class="homet-headers0">Title</th>
-                    <th class="homet-headers">Authors</th>
-                    <th class="homet-headers">Pages</th>
-                    <th class="homet-headers">Genre</th>
-                    <th class="homet-headers">Published By</th>
-                    <th class="homet-headers">Quote</th>
-                    <th class="homet-headers"></th>
-                </tr>
-                <tr class="homet-forms">
-                    {%for field in form%}
-                        <td>{{field}}</td>
+                <form method="post" action="{% url 'deleteFunc' %}">
+                    {% csrf_token %}
+                    {%for book in books%}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>
+                            {% for author in book.authors.all %}
+                                {{author.name}}
+                            {% endfor %}
+                        </td>
+                        <td>{{book.pages}}</td>
+                        <td>{{book.genre}}</td>
+                        <td>{{book.published_by}}</td>
+                        <td>{{book.quote}}</td>
+                        <td>
+                            <button value="{{book.id}}" formnovalidate name="delete">delete</button>
+                        </td>
+                    </tr>
                     {%endfor%}
-                    <td><button name="save">save</button></td>
-                </tr>
-
-                {%for book in books%}
-                <tr>
-                    <td>{{book.title}}</td>
-                    <td>
-                        {% for author in book.authors.all %}
-                            {{author.name}}
-                        {% endfor %}
-                    </td>
-                    <td>{{book.pages}}</td>
-                    <td>{{book.genre}}</td>
-                    <td>{{book.published_by}}</td>
-                    <td>{{book.quote}}</td>
-                    <td>
-                        <button value="{{book.id}}" formnovalidate name="delete">delete</button>
-                    </td>
-                </tr>
-                {%endfor%}
-                
-                <!-- <tr>
-                    {% for field in form %}
-                        <td>{{  field }}</td>
-                    {% endfor %}
-                </tr> -->
-            </form>
-        </table>
-    </div>
-
-
-
-
-    <h2>Search Section</h2>
-    <div class="lower-container">
-        
-          <div class="column">
-            <form class="form-container" method="get" action="{% url 'sayhello' %}">
-                {% csrf_token %}
-                <label>
-                  <input type="radio" name="radio1" value="author">Author Name
-                </label>
-
-                <label>
-                  <input type="radio" name="radio1" value="book">Book Title
-                </label>
-
-              <label for="search-value">Input:</label>
-              <input type="text" id="search-value" name="search-value" required>
-        
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-
-          <div class="column">
-            <table class="table-container">
-              <thead>
-                <tr>
-                  <th class="homet-headers0">Title</th>
-                  <th class="homet-headers">Authors</th>
-                  <th class="homet-headers">Pages</th>
-                  <th class="homet-headers">Genre</th>
-                  <th class="homet-headers">Published By</th>
-                  <th class="homet-headers">Quote</th>
-                </tr>
-              </thead>
-              <tbody>
-
-              {%for book in trgtBooks%}
-                <tr>
-                    <td>{{book.title}}</td>
-                    <td>
-                        {% for author in book.authors.all %}
-                            {{author.name}}
-                        {% endfor %}
-                    </td>
-                    <td>{{book.pages}}</td>
-                    <td>{{book.genre}}</td>
-                    <td>{{book.published_by}}</td>
-                    <td>{{book.quote}}</td>
-                </tr>
-              {%endfor%} 
-                
-              </tbody>
+                </form>
             </table>
-          </div>
-        
-    </div>
+        </div>
 
-    <!-- <form>
-        {{ form }}
-    </form> -->
+
+        <h2>Search Section:</h2>
+        <div class="middle-container">
+            
+            <div class="column">
+                <form class="form-container" method="get" action="{% url 'loadNsearchFunc' %}">
+                    {% csrf_token %}
+                    <label>
+                        <input type="radio" name="radio1" value="author">Author Name
+                    </label>
+
+                    <label>
+                        <input type="radio" name="radio1" value="book">Book Title
+                    </label>
+
+                    <label for="search-value">Input:</label>
+                    <input type="text" id="search-value" name="search-value" required>
+            
+                    <button class="search-save-btn" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="column">
+                <table class="table-container">
+                    <thead>
+                        <tr>
+                        <th class="homet-headers0">Title</th>
+                        <th class="homet-headers">Authors</th>
+                        <th class="homet-headers">Pages</th>
+                        <th class="homet-headers">Genre</th>
+                        <th class="homet-headers">Published By</th>
+                        <th class="homet-headers">Quote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for book in trgtBooks%}
+                            <tr>
+                                <td>{{book.title}}</td>
+                                <td>
+                                    {% for author in book.authors.all %}
+                                        {{author.name}}
+                                    {% endfor %}
+                                </td>
+                                <td>{{book.pages}}</td>
+                                <td>{{book.genre}}</td>
+                                <td>{{book.published_by}}</td>
+                                <td>{{book.quote}}</td>
+                            </tr>
+                        {%endfor%}   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <h2>Author Registration Section:</h2>
+        <div class="lower-container">
+            <form class="form-container" method="post" action="{% url 'regAuthorFunc' %}">
+                {% csrf_token %}
+
+                <label for="author-name">Author's Name:</label>
+                
+                <div class="lower-btn-container">
+                    <input type="text" id="author-name" name="author-name" required>
+                    <button name="register" type="submit">Register</button>
+                    <button name="delete" type="submit">Delete</button>
+                </div>
+                
+                <label class="response-status">
+                    <b>Response Status:</b> &#20; {{authorRegStatus}}
+                </label>
+            </form>
+        </div>
+
     </body>
 </html>
 

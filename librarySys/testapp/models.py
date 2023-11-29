@@ -11,7 +11,6 @@ from django.core.validators import MinValueValidator
 
 class Author(models.Model):
     name = models.CharField(max_length=100, blank=False, unique=True)
-    # book = models.ForeignKey(Book, on_delete=models.CASCADE) #what does on cascade do?
 
     def __str__(self):
         return self.name

@@ -24,7 +24,6 @@ def loadNsearchFunc(request):
     if (request.method == "GET") and (len(request.GET) != 0):
         request.session['editBookId'] = -1
         request.session['authorRegStatus'] = ''
-        # print(request.GET)
         btn = request.GET.get('radio1') # returns value of radio1 that was clicked
         if btn == 'author':
             trgtAuthor = Author.objects.filter(name__iexact=request.GET.get('search-value'))
@@ -34,12 +33,9 @@ def loadNsearchFunc(request):
                 trgtBooks = trgtAuthor.books.all()
                 context['trgtBooks'] += trgtBooks        
         elif btn == 'book':
-            # if you use (Book.objects.get() need to use try-catch since if no Book is found an exception will be thrown)
-            # print(request.GET.get('search-value'))   
+            # if you use (Book.objects.get() need to use try-catch since if no Book is found an exception will be thrown) 
             trgtBook = Book.objects.filter(title__iexact=request.GET.get('search-value')) # __iexact --> case insensitive filter
             context['trgtBooks'] += trgtBook
-        # else:
-        #     print('wrong output')
 
 
     # Manage edited book
@@ -58,12 +54,9 @@ def loadNsearchFunc(request):
     else:
         context['form'] = NewBookForm()
 
-    print("Edit Book:", context['editBookId'])
+    # print("Edit Book:", context['editBookId'])
         
-
     return render(request, 'home.html', context)
-
-
 
 
 
@@ -102,8 +95,6 @@ def saveFunc(request):
 
 
 
-
-
 def deleteFunc(request):
     if 'delete' in request.POST:
         #delete the book
@@ -118,9 +109,6 @@ def deleteFunc(request):
     request.session['authorRegStatus'] = ''
 
     return redirect(loadNsearchFunc)
-
-
-
 
 
 
@@ -157,7 +145,6 @@ def regAuthorFunc(request):
                 res = 'Error When Deleting Author'
         else:
             res = 'Author Not Found'
-
 
     request.session['authorRegStatus'] = res
     request.session['editBookId'] = -1

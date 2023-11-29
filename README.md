@@ -2,6 +2,7 @@
 
 ## Current Project:
 
+<img src="https://github.com/hpitta26/django-library-system/blob/main/Django-Library-System.png" alt="Library System Image" width=50%>
 
 ## Features:
 - Django for bakcend

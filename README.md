@@ -12,7 +12,7 @@ Allow users to search for Books and Authors in a personalized Library System. Su
 
 <img src="https://github.com/hpitta26/django-library-system/blob/main/Django-Library-System.png" alt="Library System Image" width=100%>
 
-# Limitations:
+## Limitations:
 - Only can add 1 genre to a Book
 - Partial search on Authors or Titles not implemented
 - Title needs to added with title() function (makes first letter Uppercase)

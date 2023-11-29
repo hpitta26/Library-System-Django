@@ -11,27 +11,22 @@ from testapp.forms import NewBookForm
 
 #view function must be mapped to an url (when user navigates to that url: this function will be called)
 
-
 #This function executes when there is a request from this URL
 def loadNsearchFunc(request):
     context = {}
-    form = NewBookForm()
     books = Book.objects.all()
     context['books'] = books
     context['title'] = 'Home'
     context['trgtBooks'] = []
     context['authorRegStatus'] = request.session.get('authorRegStatus')
-
-    print(request.session.get('authorRegStatus'))
-
-    # print('Status:' + hash)
+    context['editBookId'] = ''
      
-    if request.method == "GET": 
+    if (request.method == "GET") and (len(request.GET) != 0):
+        request.session['editBookId'] = -1
         request.session['authorRegStatus'] = ''
         # print(request.GET)
         btn = request.GET.get('radio1') # returns value of radio1 that was clicked
         if btn == 'author':
-            # print('author has been searched')
             trgtAuthor = Author.objects.filter(name__iexact=request.GET.get('search-value'))
             # if Author with target name is found
             if len(trgtAuthor) != 0:
@@ -40,57 +35,95 @@ def loadNsearchFunc(request):
                 context['trgtBooks'] += trgtBooks        
         elif btn == 'book':
             # if you use (Book.objects.get() need to use try-catch since if no Book is found an exception will be thrown)
-            #print('book has been searched')  
             # print(request.GET.get('search-value'))   
             trgtBook = Book.objects.filter(title__iexact=request.GET.get('search-value')) # __iexact --> case insensitive filter
-            # print(trgtBook)
             context['trgtBooks'] += trgtBook
         # else:
         #     print('wrong output')
-            
-    context['form'] = form
+
+
+    # Manage edited book
+    context['editBookId'] = -1
+    if request.session.get('editBookId') != -1 and request.session.get('editBookId') != None: #case --> Edit btn clicked
+        print(request.session.get('editBookId'))
+        bothEditVals = request.session.get('editBookId').split()
+        oldEdit = int(bothEditVals[0])
+        newEdit = int(bothEditVals[1])
+        if oldEdit != newEdit: # Populate Form
+            context['editBookId'] = newEdit
+            editBook = Book.objects.get(pk=newEdit)
+            context['form'] = NewBookForm(instance=editBook)
+        else:
+            context['form'] = NewBookForm()
+    else:
+        context['form'] = NewBookForm()
+
+    print("Edit Book:", context['editBookId'])
+        
+
     return render(request, 'home.html', context)
 
 
 
+
+
+
+
 def saveFunc(request):
-    try:
-        form = NewBookForm(request.POST)
-        # form.save()
-        newBook = form.save(commit=False)
-        # print(newBook)
-        if len(Book.objects.filter(title__iexact=newBook.title)) == 0: # check to ensure case insensitivity condition is not broken
-            newBook.save()
-            form.save_m2m()  
-    except:
-        # print('unexpected input')
-        print('')
+    if 'save' in request.POST:
+        try:            
+            form = NewBookForm(request.POST)
+            newBook = form.save(commit=False)
+            if len(Book.objects.filter(title__iexact=newBook.title)) == 0: # check to ensure case insensitivity condition is not broken
+                newBook.save()
+                form.save_m2m()  
+        except:
+            pass
+    else: #save with active EDIT
+        req = request.POST
+        editBook = Book.objects.get(pk=int(request.session.get('editBookId').split()[1])) # entry in DB
+
+        editBook.authors.clear() #remove all authors
+        editBook.authors.add(Author.objects.get(pk=req.get('authors'))) # !!! Currently only adds 1 author !!!
+
+        editBook.title = req.get('title')
+        editBook.pages = req.get('pages')
+        editBook.genre = req.get('genre')
+        editBook.published_by = req.get('published_by')
+        editBook.quote = req.get('quote')
+        editBook.save() #save entry back to DB
 
     request.session['authorRegStatus'] = ''
+    request.session['editBookId'] = -1
 
     return redirect(loadNsearchFunc) # redirects to view that is rendering the content
 
 
 
-def editFunct(request):
-    primKey = request.POST.get('edit')
-    book = Book.objects.get(id=primKey)
-    form = NewBookForm(instance=book)
 
-    request.session['authorRegStatus'] = ''
 
 
 
 def deleteFunc(request):
-    targetBook = request.POST.get('delete')
-    print(request.POST)
-    # print(targetBook)
-    book = Book.objects.get(id=targetBook)
-    book.delete()
+    if 'delete' in request.POST:
+        #delete the book
+        targetBook = request.POST.get('delete')
+        # print(targetBook)
+        book = Book.objects.get(id=targetBook)
+        book.delete()
+        request.session['editBookId'] = -1
+    else: #save target book.id
+        request.session['editBookId'] = request.POST.get('edit')
 
     request.session['authorRegStatus'] = ''
 
     return redirect(loadNsearchFunc)
+
+
+
+
+
+
 
 
 def regAuthorFunc(request):
@@ -99,7 +132,6 @@ def regAuthorFunc(request):
     res = ''
 
     if 'register' in request.POST:
-        # print('Register Btn Clicked')
         if len(Author.objects.filter(name__iexact=authorName)) != 0:
             #author with target name exists
             res = 'Author Already Registered'
@@ -117,6 +149,7 @@ def regAuthorFunc(request):
             try:
                 #author with target name exists
                 author = Author.objects.get(name=authorName.title())
+                # UPDATE: ONLY DELETE BOOKS WITH 1 AUTHOR
                 author.books.all().delete() # All of the Author's books are deleted too
                 author.delete()
                 res = 'Author Successfully Deleted'
@@ -127,6 +160,7 @@ def regAuthorFunc(request):
 
 
     request.session['authorRegStatus'] = res
+    request.session['editBookId'] = -1
 
     return redirect('loadNsearchFunc')
 

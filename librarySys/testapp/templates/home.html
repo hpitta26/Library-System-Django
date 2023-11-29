@@ -30,7 +30,16 @@
                         {%for field in form%}
                             <td>{{field}}</td>
                         {%endfor%}
-                        <td><button name="save">save</button></td>
+                        <td>
+                            {% if  editBookId == -1 %}
+                                <label class="upper-edit-indicator">edit</label>
+                                <button class="upper-save-btn" name="save">&#20;save&#20;</button>
+                            {% else %}
+                                <label class="upper-edit-indicator active-edit">edit</label>
+                                <button class="upper-save-btn" name="edit-save">&#20;save&#20;</button>
+                            {% endif %}
+                            
+                        </td>
                     </tr>
                 </form>
 
@@ -49,6 +58,12 @@
                         <td>{{book.published_by}}</td>
                         <td>{{book.quote}}</td>
                         <td>
+                            {% if  book.id == editBookId %}
+                                <button class="active-edit" value=" {{editBookId}} {{book.id}}" formnovalidate name="edit">edit</button>
+                            {% else %}
+                                <button value=" {{editBookId}} {{book.id}}" formnovalidate name="edit">edit</button>
+                            {% endif %}
+                            
                             <button value="{{book.id}}" formnovalidate name="delete">delete</button>
                         </td>
                     </tr>

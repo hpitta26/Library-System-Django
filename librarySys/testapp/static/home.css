@@ -31,6 +31,18 @@ td {
     overflow: hidden;
 }
 
+.upper-save-btn {
+    display: inline-block;
+}
+.upper-edit-indicator {
+    border-radius: 0.1rem;
+    padding: 0.2rem;
+    display: inline-block;
+}
+.active-edit {
+    background-color: greenyellow;
+}
+
 .homet-headers0 {
     border-right: 1.5px groove black;
     border-left: 1.5px groove black;

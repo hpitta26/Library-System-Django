@@ -1,5 +1,5 @@
 # Django Library System WebApp
-
+- Weekend project, done while learning Django to get some more exposure to different backend frameworks.
 ## Features:
 - Django for backend
 - Default Sqlite3 used for DB

@@ -1,7 +1,7 @@
 # Django Library System WebApp
 
 ## Features:
-- Django for bakcend
+- Django for backend
 - Default Sqlite3 used for DB
 - Django templates used for UI (html + css)
 

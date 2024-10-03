@@ -6,7 +6,7 @@
 - Django templates used for UI (html + css)
 
 ## Purpose:
-Allow users to search for Books and Authors in a personalized Library System. Supports CRUD operations on Books.
+Allow users to search for Books and Authors in a personalized Library System. Supports CRUD operations on Books and Authors.
 
 ## Current Project:
 
